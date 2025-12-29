@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fire Weather Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+        .container {
+            width: 400px;
+            margin: 50px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Fire Prediction Model</h2>
+
+    <form action="{{url_for('predict_datapoint')}}" method="POST">
+        <label>Temperature</label>
+        <input type="number" step="any" name="Temperature" required>
+
+        <label>Relative Humidity (RH)</label>
+        <input type="number" step="any" name="RH" required>
+
+        <label>Wind Speed (WS)</label>
+        <input type="number" step="any" name="WS" required>
+
+        <label>Rain</label>
+        <input type="number" step="any" name="Rain" required>
+
+        <label>FFMC</label>
+        <input type="number" step="any" name="FFMC" required>
+
+        <label>DMC</label>
+        <input type="number" step="any" name="DMC" required>
+
+        <label>ISI</label>
+        <input type="number" step="any" name="ISI" required>
+
+        <label>Classes</label>
+        <input type="number" step="any" name="Classes" required>
+
+        <label>Region</label>
+        <input type="number" step="any" name="Region" required>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if result %}
+        <div class="result">
+            <strong>Prediction Result:</strong> {{ result }}
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
