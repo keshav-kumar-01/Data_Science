@@ -9,3 +9,4 @@ tensorflow
 transformers
 ta
 matplotlib
+seaborn
