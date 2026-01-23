@@ -3,7 +3,10 @@ import yfinance as yf
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
-import pandas_ta as ta
+import ta
+from ta.volatility import BollingerBands
+from ta.momentum import RSIIndicator
+from ta.trend import MACD
 from datetime import datetime, timedelta
 
 from algorithms import * # Load Analysis Logic
@@ -465,14 +468,13 @@ with tab_port:
                 
                 # Technical Indicators per ticker
                 if show_bb:
-                    bb = ta.bbands(prices[t], length=20)
-                    if bb is not None:
-                         cols = bb.columns
-                         lower = [c for c in cols if c.startswith("BBL")][0]
-                         upper = [c for c in cols if c.startswith("BBU")][0]
-                         
-                         fig.add_trace(go.Scatter(x=bb.index, y=bb[upper], mode='lines', line=dict(width=1), name=f"{t} Upper BB"))
-                         fig.add_trace(go.Scatter(x=bb.index, y=bb[lower], mode='lines', line=dict(width=1), name=f"{t} Lower BB"))
+                    indicator_bb = BollingerBands(close=prices[t], window=20, window_dev=2)
+                    bb_upper = indicator_bb.bollinger_hband()
+                    bb_lower = indicator_bb.bollinger_lband()
+                    
+                    if bb_upper is not None and bb_lower is not None:
+                         fig.add_trace(go.Scatter(x=bb_upper.index, y=bb_upper, mode='lines', line=dict(width=1, dash='dot'), name=f"{t} Upper BB"))
+                         fig.add_trace(go.Scatter(x=bb_lower.index, y=bb_lower, mode='lines', line=dict(width=1, dash='dot'), name=f"{t} Lower BB"))
         
         fig.update_layout(height=600, template="plotly_dark", title="Asset Prices")
         st.plotly_chart(fig, use_container_width=True)
@@ -481,7 +483,8 @@ with tab_port:
         
         if show_rsi:
             rsi_ticker = st.selectbox("Select Ticker for RSI", prices.columns, key="rsi_select")
-            rsi = ta.rsi(prices[rsi_ticker])
+            indicator_rsi = RSIIndicator(close=prices[rsi_ticker], window=14)
+            rsi = indicator_rsi.rsi()
             fig_rsi = go.Figure(go.Scatter(x=rsi.index, y=rsi, name="RSI"))
             fig_rsi.add_hline(y=70, line_dash="dash", line_color="red")
             fig_rsi.add_hline(y=30, line_dash="dash", line_color="green")
@@ -490,18 +493,16 @@ with tab_port:
             
         if show_macd:
             macd_ticker = st.selectbox("Select Ticker for MACD", prices.columns, key="macd_select")
-            macd = ta.macd(prices[macd_ticker])
-            if macd is not None:
-                # MACD columns: MACD_12_26_9, MACDh_12_26_9, MACDs_12_26_9
-                cols = macd.columns
-                macd_line = [c for c in cols if c.startswith("MACD") and "h" not in c and "s" not in c][0]
-                macd_sig = [c for c in cols if c.startswith("MACDs")][0]
-                macd_hist = [c for c in cols if c.startswith("MACDh")][0]
-                
+            indicator_macd = MACD(close=prices[macd_ticker], window_slow=26, window_fast=12, window_sign=9)
+            macd_line = indicator_macd.macd()
+            macd_sig = indicator_macd.macd_signal()
+            macd_hist = indicator_macd.macd_diff()
+            
+            if macd_line is not None:
                 fig_macd = go.Figure()
-                fig_macd.add_trace(go.Scatter(x=macd.index, y=macd[macd_line], name="MACD"))
-                fig_macd.add_trace(go.Scatter(x=macd.index, y=macd[macd_sig], name="Signal"))
-                fig_macd.add_trace(go.Bar(x=macd.index, y=macd[macd_hist], name="Hist"))
+                fig_macd.add_trace(go.Scatter(x=macd_line.index, y=macd_line, name="MACD"))
+                fig_macd.add_trace(go.Scatter(x=macd_sig.index, y=macd_sig, name="Signal"))
+                fig_macd.add_trace(go.Bar(x=macd_hist.index, y=macd_hist, name="Hist"))
                 fig_macd.update_layout(height=350, template="plotly_dark", title=f"MACD ({macd_ticker})")
                 st.plotly_chart(fig_macd, use_container_width=True)
 
