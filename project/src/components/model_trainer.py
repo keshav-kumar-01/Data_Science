@@ -47,8 +47,97 @@ class model_trainer:
                 "Ada Boost Regressor": AdaBoostRegressor(),
             }
 
+            param = {
+                "Decision Tree": {
+                    "criterion": ["squared_error", "friedman_mse", "absolute_error", "poisson"],
+                    "splitter": ["best", "random"],
+                    "max_depth": [None, 5, 10],
+                    "min_samples_split": [2, 5, 10],
+                    "min_samples_leaf": [1, 2, 4],
+                    #"min_weight_fraction_leaf": [0.0],
+                    "max_features": [None, "sqrt", "log2"],
+                    "random_state": [42],
+                    #"max_leaf_nodes": [None, 10, 20, 50],
+                    #"min_impurity_decrease": [0.0],
+                    #"ccp_alpha": [0.0]
+                },
 
-            model_report: dict= evaluate_models(X_train=X_train,y_train=y_train,X_test = X_test , y_test = y_test ,models=models)
+                "Random Forest": {
+                    "n_estimators": [50, 100, 200],
+                    "criterion": ["squared_error", "absolute_error", "friedman_mse", "poisson"],
+                    "max_depth": [None, 10, 20],
+                    "min_samples_split": [2, 5, 10],
+                    #"min_samples_leaf": [1, 2, 4],
+                    #"min_weight_fraction_leaf": [0.0],
+                    "max_features": ["sqrt", "log2", None],
+                    #"max_leaf_nodes": [None, 10, 20, 50],
+                    #"bootstrap": [True, False],
+                    #"oob_score": [False],
+                    "random_state": [42],
+                    "n_jobs": [-1],
+                    #"ccp_alpha": [0.0]
+                },
+
+                "Gradient Boosting": {
+                    "loss": ["squared_error", "absolute_error", "huber", "quantile"],
+                    "learning_rate": [0.01, 0.05, 0.1, 0.2],
+                    "n_estimators": [50, 100, 200],
+                    #"subsample": [0.8, 1.0],
+                    #"criterion": ["friedman_mse", "squared_error"],
+                    "min_samples_split": [2, 5, 10],
+                    #"min_samples_leaf": [1, 2, 4],
+                    "max_depth": [3, 5, 10],
+                    "max_features": ["sqrt", "log2", None],
+                    "random_state": [42]
+                },
+
+                "Linear Regressor": {
+                    "fit_intercept": [True, False],
+                    #"copy_X": [True, False],
+                    #"positive": [True, False]
+                },
+
+                "K-Neighbors Regressor": {
+                    "n_neighbors": [3, 5, 7, 9],
+                    "weights": ["uniform", "distance"],
+                    "algorithm": ["auto", "ball_tree", "kd_tree", "brute"],
+                    #"leaf_size": [20, 30, 40],
+                    #"p": [1, 2],
+                    #"metric": ["minkowski"]
+                },
+
+                "XG Boost": {
+                    "n_estimators": [50, 100, 200],
+                    "learning_rate": [0.01, 0.05, 0.1, 0.2],
+                    "max_depth": [3, 5],
+                    # "min_child_weight": [1, 3, 5],
+                    #"subsample": [0.8, 1.0],
+                    #"colsample_bytree": [0.8, 1.0],
+                    #"gamma": [0, 0.1, 0.2],
+                    #"reg_alpha": [0, 0.01, 0.1],
+                    #"reg_lambda": [1, 1.5, 2],
+                    "random_state": [42]
+                },
+
+                "CatBoost Regressor": {
+                    "iterations": [100, 200, 500],
+                    "learning_rate": [0.01, 0.05, 0.1],
+                    "depth": [4, 6, 8, 10],
+                    "loss_function": ["RMSE"],
+                    "eval_metric": ["RMSE"],
+                    "random_seed": [42],
+                    "verbose": [False]
+                },
+
+                "Ada Boost Regressor": {
+                    "n_estimators": [50, 100, 200],
+                    "learning_rate": [0.01, 0.05, 0.1, 1.0],
+                    "loss": ["linear", "square", "exponential"],
+                    "random_state": [42]
+                }
+            }
+
+            model_report: dict= evaluate_models(X_train=X_train,y_train=y_train,X_test = X_test , y_test = y_test ,models=models,params=param)
 
             best_model_score = max(sorted(model_report.values()))
 
