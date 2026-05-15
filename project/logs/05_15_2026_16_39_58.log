@@ -1,0 +1,9 @@
+[2026-05-15 16:39:58,781 ] 97 werkzeug - WARNING -  * Debugger is active!
+[2026-05-15 16:39:58,796 ] 97 werkzeug - INFO -  * Debugger PIN: 127-249-338
+[2026-05-15 16:39:59,062 ] 97 werkzeug - INFO - 127.0.0.1 - - [15/May/2026 16:39:59] "[35m[1mPOST /predictdata HTTP/1.1[0m" 500 -
+[2026-05-15 16:39:59,467 ] 97 werkzeug - INFO - 127.0.0.1 - - [15/May/2026 16:39:59] "[36mGET /predictdata?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+[2026-05-15 16:39:59,479 ] 97 werkzeug - INFO - 127.0.0.1 - - [15/May/2026 16:39:59] "[36mGET /predictdata?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+[2026-05-15 16:39:59,519 ] 97 werkzeug - INFO - 127.0.0.1 - - [15/May/2026 16:39:59] "GET /predictdata?__debugger__=yes&cmd=resource&f=console.png&s=vCZJUb880sAEEdFRO9CJ HTTP/1.1" 200 -
+[2026-05-15 16:39:59,649 ] 97 werkzeug - INFO - 127.0.0.1 - - [15/May/2026 16:39:59] "[36mGET /predictdata?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+[2026-05-15 16:41:45,962 ] 97 werkzeug - INFO -  * Detected change in 'D:\\Data_Science\\project\\src\\pipeline\\predict_pipeline.py', reloading
+[2026-05-15 16:41:45,964 ] 97 werkzeug - INFO -  * Detected change in 'D:\\Data_Science\\project\\src\\pipeline\\predict_pipeline.py', reloading

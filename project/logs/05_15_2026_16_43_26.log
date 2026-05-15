@@ -1,0 +1,5 @@
+[2026-05-15 16:43:27,063 ] 97 werkzeug - WARNING -  * Debugger is active!
+[2026-05-15 16:43:27,080 ] 97 werkzeug - INFO -  * Debugger PIN: 127-249-338
+[2026-05-15 16:43:33,362 ] 97 werkzeug - INFO -  * Detected change in 'D:\\Data_Science\\project\\app.py', reloading
+[2026-05-15 16:43:33,363 ] 97 werkzeug - INFO -  * Detected change in 'D:\\Data_Science\\project\\app.py', reloading
+[2026-05-15 16:43:33,365 ] 97 werkzeug - INFO -  * Detected change in 'D:\\Data_Science\\project\\app.py', reloading
